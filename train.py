@@ -19,7 +19,7 @@ def train_deit_tiny(
 ):
 
     os.makedirs(output_dir, exist_ok=True)
-    log_file = os.path.join(output_dir, "training_logs_deit.txt")
+    log_file = os.path.join(output_dir, "training_logs_deit2.txt")
 
     # Initialize storage for cumulative confusion matrix and metrics
     cumulative_confusion_matrix = np.zeros((len(class_names), len(class_names)), dtype=int)
@@ -34,7 +34,7 @@ def train_deit_tiny(
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=0.001)
         wandb.init(
-            project="DeiT-Tiny-5Fold",
+            project="dt2",
             name=f"Fold-{fold + 1}",
             config={
                 "num_epochs": num_epochs,
@@ -125,7 +125,7 @@ def train_deit_tiny(
 
         # Save the best model for the current fold
         model.load_state_dict(best_model_state)
-        torch.save(best_model_state, os.path.join(output_dir, f"best_deit_model_fold{fold + 1}.pth"))
+        torch.save(best_model_state, os.path.join(output_dir, f"best_deit_model_2_fold{fold + 1}.pth"))
 
         # Evaluate on the test set
         print(f"\n=== Testing Fold {fold + 1} ===")
@@ -162,21 +162,21 @@ def train_deit_tiny(
             "overall_accuracy": fold_accuracy,
         }
 
-        with open(os.path.join(output_dir, f"fold_{fold + 1}_metrics.json"), "w") as f:
+        with open(os.path.join(output_dir, f"fold_{fold + 1}_metrics2.json"), "w") as f:
             json.dump(fold_metrics, f)
 
         all_metrics.append(fold_metrics)
         wandb.finish()
 
     # Save cumulative confusion matrix and metrics
-    np.save(os.path.join(output_dir, "cumulative_confusion_matrix.npy"), cumulative_confusion_matrix)
+    np.save(os.path.join(output_dir, "cumulative_confusion_matrix2.npy"), cumulative_confusion_matrix)
     save_confusion_matrix(
         cumulative_confusion_matrix,
         class_names,
-        os.path.join(output_dir, "cumulative_confusion_matrix.png")
+        os.path.join(output_dir, "cumulative_confusion_matrix2.png")
     )
 
-    with open(os.path.join(output_dir, "test_metrics.json"), "w") as f:
+    with open(os.path.join(output_dir, "test_metrics2.json"), "w") as f:
         json.dump(all_metrics, f)
 
     print("\nTraining completed. Results saved to:", output_dir)
