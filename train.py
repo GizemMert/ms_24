@@ -8,13 +8,14 @@ import json
 import wandb
 import matplotlib.pyplot as plt
 import seaborn as sns
+from model_vit import DeiTTinyClassifier
 from label_map import class_names
 from label_map import label_map, class_dict, class_names
 
 
 # Define Human-Readable Class Names
 def train_deit_tiny(
-    model, fold_dataloaders, class_names, num_epochs=150, patience=20, output_dir="results_deit"
+    fold_dataloaders, class_names, num_epochs=150, patience=20, output_dir="results_deit"
 ):
     """
     Train a DeiT-Tiny model using 5-fold cross-validation with early stopping.
@@ -28,6 +29,7 @@ def train_deit_tiny(
         output_dir (str): Directory to save logs, metrics, and model checkpoints.
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = DeiTTinyClassifier(num_classes=len(class_names))
     model = model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
