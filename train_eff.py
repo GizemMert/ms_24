@@ -8,7 +8,7 @@ import json
 import wandb
 import matplotlib.pyplot as plt
 import seaborn as sns
-from model_eff import Efficientnetv2Classifier
+from model_eff import EfficientnetClassifier
 from label_map import class_names
 from label_map import label_map, class_dict, class_names
 
@@ -29,7 +29,7 @@ def train_eff(
         print(f"\n=== Starting Fold {fold + 1}/{len(fold_dataloaders)} ===\n")
 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model = Efficientnetv2Classifier(num_classes=len(class_names))
+        model = EfficientnetClassifier(num_classes=len(class_names))
         model = model.to(device)
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=0.001)

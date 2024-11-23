@@ -1,15 +1,17 @@
 import torch.nn as nn
 import timm
+from torchvision.models import efficientnet_b0
 
 
-class Efficientnetv2Classifier(nn.Module):
+class EfficientnetClassifier(nn.Module):
     def __init__(self, num_classes):
-        super(Efficientnetv2Classifier, self).__init__()
+        super(EfficientnetClassifier, self).__init__()
 
-        model = timm.create_model('efficientnetv2_b0', pretrained=False)
+        # Load EfficientNet-B0 without pre-trained weights
+        self.model = efficientnet_b0(weights=None)
 
-
-        self.model.head = nn.Linear(self.model.num_features, num_classes)
+        # Modify the classifier to match the number of classes
+        self.model.classifier[1] = nn.Linear(self.model.classifier[1].in_features, num_classes)
 
     def forward(self, x):
         return self.model(x)
