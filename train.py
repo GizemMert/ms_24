@@ -17,22 +17,6 @@ from label_map import label_map, class_dict, class_names
 def train_deit_tiny(
     fold_dataloaders, class_names, num_epochs=150, patience=20, output_dir="results_deit"
 ):
-    """
-    Train a DeiT-Tiny model using 5-fold cross-validation with early stopping.
-
-    Args:
-        model (torch.nn.Module): PyTorch model to train.
-        fold_dataloaders (list): List of train, val, and test dataloaders for each fold.
-        class_names (list): List of human-readable class names.
-        num_epochs (int): Maximum number of epochs.
-        patience (int): Number of epochs to wait for validation improvement before stopping.
-        output_dir (str): Directory to save logs, metrics, and model checkpoints.
-    """
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = DeiTTinyClassifier(num_classes=len(class_names))
-    model = model.to(device)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     os.makedirs(output_dir, exist_ok=True)
     log_file = os.path.join(output_dir, "training_logs_deit.txt")
@@ -43,6 +27,12 @@ def train_deit_tiny(
 
     for fold, (train_loader, val_loader, test_loader) in enumerate(fold_dataloaders):
         print(f"\n=== Starting Fold {fold + 1}/{len(fold_dataloaders)} ===\n")
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model = DeiTTinyClassifier(num_classes=len(class_names))
+        model = model.to(device)
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.Adam(model.parameters(), lr=0.001)
         wandb.init(
             project="DeiT-Tiny-5Fold",
             name=f"Fold-{fold + 1}",
@@ -63,9 +53,9 @@ def train_deit_tiny(
         with open(log_file, "a") as f:
             f.write(f"\n=== Fold {fold + 1}/{len(fold_dataloaders)} ===\n")
 
+        best_model_state = None
         best_val_loss = float('inf')
         epochs_no_improve = 0
-        best_model_state = None
 
         for epoch in range(num_epochs):
             # Training phase
