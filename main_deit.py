@@ -25,8 +25,8 @@ print(f"Class distribution in the dataset: {Counter(dataset.labels)}")
 output_dir = "results_deit"  # Directory to save all logs and metrics
 batch_size = 128
 num_folds = 5
-num_epochs = 100
-patience = 20
+num_epochs = 50
+patience = 10
 
 # Load Data
 fold_dataloaders = dataset.get_fold_dataloaders()
