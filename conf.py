@@ -13,14 +13,6 @@ else:
     labels = None  # If no labels are found, set to None
 
 # If no labels are found, define them manually
-if labels is None:
-    labels = [
-        "Neutrophil (segmented)", "Neutrophil (band)", "Lymphocyte (typical)", "Lymphocyte (atypical)",
-        "Monocyte", "Eosinophil", "Basophil", "Myeloblast", "Promyelocyte",
-        "Promyelocyte (bilobed)", "Myelocyte", "Metamyelocyte", "Monoblast",
-        "Erythroblast", "Smudge"
-    ]
-
 # Normalize the confusion matrix to get relative frequencies
 conf_matrix_normalized = conf_matrix / conf_matrix.sum(axis=1, keepdims=True)
 
