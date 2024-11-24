@@ -30,13 +30,25 @@ class_dict = {
     'PMB': 'Promyelocyte (bilobed)'
 }
 
-# Generate class names based on label_map and class_dict
-class_names = [class_dict[key] for key in sorted(label_map.keys(), key=lambda x: label_map[x])]
+# New desired label order (based on the second image)
+new_order = [
+    'NGS', 'NGB', 'LYT', 'LYA', 'MON', 'EOS', 'BAS', 'MYO',
+    'PMO', 'PMB', 'MYB', 'MMZ', 'MOB', 'EBO', 'KSC'
+]
 
-# Normalize the confusion matrix to get relative frequencies
-conf_matrix_normalized = conf_matrix / conf_matrix.sum(axis=1, keepdims=True)
+# Generate the new index order from the new label order
+index_order = [label_map[label] for label in new_order]
 
-# Plot the confusion matrix
+# Reorder the confusion matrix rows and columns
+conf_matrix_reordered = conf_matrix[np.ix_(index_order, index_order)]
+
+# Generate the reordered class names
+class_names_reordered = [class_dict[label] for label in new_order]
+
+# Normalize the reordered confusion matrix
+conf_matrix_normalized = conf_matrix_reordered / conf_matrix_reordered.sum(axis=1, keepdims=True)
+
+# Plot the reordered confusion matrix
 plt.figure(figsize=(10, 8))
 plt.imshow(conf_matrix_normalized, cmap='Greys', interpolation='nearest')
 
@@ -47,22 +59,20 @@ plt.grid(False)
 cbar = plt.colorbar(label='Relative frequency')
 # cbar.set_ticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])  # Explicitly set ticks up to 1.0
 
-# Add labels to axes
-plt.xticks(ticks=np.arange(len(class_names)), labels=class_names, rotation=45, ha='right')
-plt.yticks(ticks=np.arange(len(class_names)), labels=class_names)
+# Add reordered labels to axes
+plt.xticks(ticks=np.arange(len(class_names_reordered)), labels=class_names_reordered, rotation=45, ha='right')
+plt.yticks(ticks=np.arange(len(class_names_reordered)), labels=class_names_reordered)
 
 # Add axis labels and title
 plt.xlabel("Network prediction")
 plt.ylabel("Examiner label")
-plt.title("Confusion Matrix (Relative Frequencies)")
+plt.title("Confusion Matrix (Reordered - Relative Frequencies)")
 
 # Tighten layout for better visualization
 plt.tight_layout()
 
 # Save the plot
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf_new.png'
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf_reordered.png'
 plt.savefig(output_path, dpi=300)
-
-
 
 
