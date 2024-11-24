@@ -66,7 +66,7 @@ plt.yticks(ticks=np.arange(len(class_names_reordered)), labels=class_names_reord
 # Add axis labels and title
 plt.xlabel("Network prediction")
 plt.ylabel("Examiner label")
-plt.title("Confusion Matrix (Reordered - Relative Frequencies)")
+plt.title("Confusion Matrix")
 
 # Tighten layout for better visualization
 plt.tight_layout()
