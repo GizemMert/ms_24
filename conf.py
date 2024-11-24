@@ -48,6 +48,6 @@ plt.title("Confusion Matrix (Relative Frequencies)")
 plt.tight_layout()
 
 # Save the plot
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf.png'
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf_new.png'
 plt.savefig(output_path)
 plt.show()
