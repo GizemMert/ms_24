@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the confusion matrix from the npy file
-conf_matrix = np.load('/home/aih/gizem.mert/ml_24/ms_24/results_deit/cumulative_confusion_matrix2.npy')  # Replace with your file path
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf2.png'
+conf_matrix = np.load('/home/aih/gizem.mert/ml_24/ms_24/results_eff/cumulative_confusion_matrix.npy')  # Replace with your file path
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/conf.png'
 # Normalize the confusion matrix to get relative frequencies
 conf_matrix_normalized = conf_matrix / conf_matrix.sum(axis=1, keepdims=True)
 
