@@ -15,7 +15,7 @@ with open('/home/aih/gizem.mert/ml_24/ms_24/results_deit/test_metrics.json', 'r'
 
 # Define model names manually (ensure order matches the JSON file)
 model_names = [
-    "EfficientNet"
+    "DEIT-TINY"
 ]
 
 # Create a detailed table
