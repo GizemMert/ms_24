@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the confusion matrix
-conf_matrix_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/cumulative_confusion_matrix.npy'
+conf_matrix_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/cumulative_confusion_matrix.npy'
 conf_matrix = np.load(conf_matrix_path, allow_pickle=True)
 
 # Define the label map and class dictionary
@@ -72,7 +72,7 @@ plt.title("Confusion Matrix")
 plt.tight_layout()
 
 # Save the plot
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/conf_reordered.png'
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/conf_reordered.png'
 plt.savefig(output_path, dpi=300)
 
 
