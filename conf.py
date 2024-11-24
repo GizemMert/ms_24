@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/table.png'
 
 # Load the JSON file
-with open('/home/aih/gizem.mert/ml_24/ms_24/results_eff/test_metrics.json', 'r') as f:
+with open('/home/aih/gizem.mert/ml_24/ms_24/results_eff/fold_1_metrics.json', 'r') as f:
     metrics_data = json.load(f)
 
 # Define model names manually (ensure order matches the JSON file)
