@@ -24,7 +24,7 @@ plt.grid(False)
 
 # Add color bar with explicit ticks
 cbar = plt.colorbar(label='Relative frequency')
-cbar.set_ticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])  # Explicitly set ticks up to 1.0
+
 
 # Add labels to axes
 plt.xticks(ticks=np.arange(len(labels)), labels=labels, rotation=45, ha='right')
