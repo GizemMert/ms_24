@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/table.png'
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_deit/table.png'
 
 # Load the JSON file
-with open('/home/aih/gizem.mert/ml_24/ms_24/results_eff/fold_1_metrics.json', 'r') as f:
+with open('/home/aih/gizem.mert/ml_24/ms_24/results_deit/test_metrics.json', 'r') as f:
     metrics_data = json.load(f)
 
 # Define model names manually (ensure order matches the JSON file)
