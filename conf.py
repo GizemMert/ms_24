@@ -2,41 +2,48 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the confusion matrix from the npy file
-conf_matrix = np.load('/home/aih/gizem.mert/ml_24/ms_24/results_eff/cumulative_confusion_matrix.npy')  # Replace with your file path
-output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/conf.png'
-# Normalize the confusion matrix to get relative frequencies
-conf_matrix_normalized = conf_matrix / conf_matrix.sum(axis=1, keepdims=True)
 
-# Define labels
-labels = [
-    "Neutrophil (segmented)", "Neutrophil (band)", "Lymphocyte (typical)", "Lymphocyte (atypical)",
-    "Monocyte", "Eosinophil", "Basophil", "Myeloblast", "Promyelocyte",
-    "Promyelocyte (bilobed)", "Myelocyte", "Metamyelocyte", "Monoblast",
-    "Erythroblast", "Smudge"
+
+import json
+import pandas as pd
+import matplotlib.pyplot as plt
+output_path = '/home/aih/gizem.mert/ml_24/ms_24/results_eff/table.png'
+
+# Load the JSON file
+with open('/home/aih/gizem.mert/ml_24/ms_24/results_eff/test_metrics.json', 'r') as f:
+    metrics_data = json.load(f)
+
+# Define model names manually (ensure order matches the JSON file)
+model_names = [
+    "EfficientNet"
 ]
 
-# Plot the confusion matrix
-plt.figure(figsize=(10, 8))
-plt.imshow(conf_matrix_normalized, cmap='Greys', interpolation='nearest')
+# Create a detailed table
+table_data = []
+for model_name, model_metrics in zip(model_names, metrics_data):
+    for class_name, class_metrics in model_metrics["class_metrics"].items():
+        table_data.append({
+            "Model": model_name,
+            "Class": class_name,
+            "Precision": f"{class_metrics.get('precision', 0):.3f}",
+            "Recall": f"{class_metrics.get('recall (sensitivity)', 0):.3f}",
+            "F1-Score": f"{class_metrics.get('f1_score', 0):.3f}"
+        })
 
-# Remove grid lines
-plt.grid(False)
+# Convert to a Pandas DataFrame
+df = pd.DataFrame(table_data)
 
-# Add color bar with explicit ticks
-cbar = plt.colorbar(label='Relative frequency')
+# Visualize the table using matplotlib
+fig, ax = plt.subplots(figsize=(10, 8))  # Adjust the figure size as needed
+ax.axis('tight')
+ax.axis('off')
+table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
 
+# Style the table
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.auto_set_column_width(col=list(range(len(df.columns))))
 
-# Add labels to axes
-plt.xticks(ticks=np.arange(len(labels)), labels=labels, rotation=45, ha='right')
-plt.yticks(ticks=np.arange(len(labels)), labels=labels)
+plt.savefig(output_path, bbox_inches='tight', dpi=300)
 
-# Add axis labels and title
-plt.xlabel("Network prediction")
-plt.ylabel("Examiner label")
-plt.title("Confusion Matrix (Relative Frequencies)")
-
-# Tighten layout for better visualization
-plt.tight_layout()
-
-plt.savefig(output_path)
 
